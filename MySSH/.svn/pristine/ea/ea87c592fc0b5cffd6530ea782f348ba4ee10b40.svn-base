@@ -1,0 +1,7 @@
+#update-begin--Author:zhangguoming  Date:20140226 for：添加验证码
+# 验证码配置
+# 验证码长度
+randCodeLength=4
+# 验证码类型：1-数字，2-小写字母，3-大写字符，4-字符,5-混合字符串，
+randCodeType=5
+#update-end--Author:zhangguoming  Date:20140226 for：添加验证码

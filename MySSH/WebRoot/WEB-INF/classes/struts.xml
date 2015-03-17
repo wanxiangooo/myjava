@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" 
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<!-- 开启使用开发模式，详细错误提示 -->    
+    <constant name="struts.devMode" value="true" />    
+    <!-- 将对象交给spring管理-->   
+    <constant name="struts.objectFactory" value="spring" />       
+    <!-- 指定资源编码类型 -->    
+    <constant name="struts.i18n.encoding" value="UTF-8" />     
+    <!-- 指定每次请求到达，重新加载资源文件 -->    
+    <constant name="struts.i18n.reload" value="false" />    
+    <!-- 指定每次配置文件更改后，自动重新加载 -->    
+    <constant name="struts.configuration.xml.reload" value="false" />    
+    <!-- 默认后缀名 -->    
+    <constant name="struts.action.extension" value="action," />  
+	<!-- Struts Annotation -->
+	<constant name="actionPackages" value="cn.com.wanx.applications.action" />
+	<package name="struts-root" namespace="/" extends="json-default">
+		<interceptors>
+			<!-- 配置注解拦截器 -->
+			<interceptor name="annotationInterceptor"
+				class="com.opensymphony.xwork2.interceptor.annotations.AnnotationWorkflowInterceptor" />
+			
+			<!-- 定义所有action都要通过的拦截器 -->
+			<interceptor name="initInterceptor"
+				class="cn.com.wanx.support.interceptor.InitInterceptor">
+			</interceptor>
+
+			<interceptor-stack name="annotatedStack">
+				<interceptor-ref name="annotationInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+
+			<!-- 定义前台拦截器栈，拦截器栈是拦截器的集合 -->
+			<!-- 当调用自定义拦截器时不会调用默认拦截器，所以需要定义拦截器栈， 在栈中指定需要通过的自定义拦截器和默认拦截器 -->
+			<interceptor-stack name="initInterceptorStack">
+				<interceptor-ref name="initInterceptor" />
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack>
+
+		</interceptors>
+		
+		<!-- 默认调用的拦截器，所有前后台action都要通过此拦截器 -->
+		<default-interceptor-ref name="initInterceptorStack" />
+
+		<!-- 默认的action，在找不到指定action时转到此action -->
+		<default-action-ref name="not_found"></default-action-ref>
+		
+		<!-- 全局results -->
+		<global-results>
+			<result name="error">/statics/error/error.jsp</result>
+			<result name="exception">/statics/error/exception.jsp</result>
+			<result name="not_found">/statics/error/not_found.jsp</result>
+			<result name="forbiddenIp">/statics/error/forbiddenIp.jsp</result>
+		</global-results>
+			
+		<!-- 全局的exception -->
+		<global-exception-mappings>
+			<exception-mapping result="exception" exception="java.lang.Exception"></exception-mapping>
+		</global-exception-mappings>
+		
+		<!-- 定义action，这个action标签与上面的标签之间顺序有要求，所以不要改变标签之间的顺序 -->
+		<action name="not_found">
+			<result>/exception/not_found.jsp</result>
+		</action>
+
+	</package>
+	<!-- 
+	<include file="struts/struts-login.xml"></include>
+	-->
+</struts>    

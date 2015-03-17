@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" 
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+	<package name="login" namespace="/login" extends="struts-root">
+	<action name="checkuser" class="cn.com.wanx.applications.action.LoginAction"  method="logincheck">
+		<result name="json" type="json">
+			<param name="111"></param>
+		</result>
+	</action>
+	
+	</package>
+
+</struts>
